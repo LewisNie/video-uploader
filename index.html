@@ -49,8 +49,8 @@
                     type:'POST',
                     url: $(this).attr('action'),
                     data:formdata,
-                    processData: false,
-                    contentType: false,
+                    processData: false,//Setting processData to false stops jQuery from attempting to convert the formData object to a string
+                    contentType: false,//Setting contentType to false tells jQuery not to add a Content-Type header for us
                     success:function (data) {
                         console.log(data);
                     },
