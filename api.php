@@ -2,14 +2,22 @@
     require "vendor/autoload.php";
 
     $app = new \Slim\Slim();
-
     $app->get('/hello',function (){
         echo "hello";
     });
 
     $app->post('/upload',function (){
+        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $length = 5;
+        $filename = '';
+        for($i = 0; $i < $length; $i++)
+        {
+            $filename.=$chars[mt_rand(0, 36)];
+        }
+        $allowedExts = array("mp3", "mp4", "wma");
+
         $target_dir = "uploads/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        $target_file = $target_dir .$filename.basename($_FILES["fileToUpload"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 // Check if image file is a actual image or fake image
@@ -29,14 +37,13 @@
             $uploadOk = 0;
         }
 // Check file size
-        if ($_FILES["fileToUpload"]["size"] > 500000) {
+        if ($_FILES["fileToUpload"]["size"] > 5000000) {
             echo "Sorry, your file is too large.";
             $uploadOk = 0;
         }
 // Allow certain file formats
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif" ) {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        if(!!!in_array($imageFileType,$allowedExts)){
+            echo "Sorry, only video files are allowed.";
             $uploadOk = 0;
         }
 // Check if $uploadOk is set to 0 by an error
@@ -44,11 +51,16 @@
             echo "Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
         } else {
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+            /*$video = $ffmpeg->open($_FILES["fileToUpload"]["tmp_name"]);
+            $video
+                ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))
+                ->save('frame.jpg');*/
+            var_dump( $_FILES["fileToUpload"]["name"]);
+            /*if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                 echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
             } else {
                 echo "Sorry, there was an error uploading your file.";
-            }
+            }*/
         }
     });
 
