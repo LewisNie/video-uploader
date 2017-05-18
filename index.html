@@ -58,7 +58,7 @@
             height: 100%;
             background-color: #4791D2;
         }
-        #filenameDisplay{
+        #filenameDisplay,imgnameDisplay{
             display: none;
         }
 
@@ -79,6 +79,13 @@
                     </div>
                 </div>
                 <form id="uploadform" action="api.php/upload">
+                    <div class="form-group row" id="imgnameDisplay">
+                        <label for="txt" class="control-label col-xs-5">image name:</label>
+                        <div class="col-xs-7">
+                            <span id="imgname"></span>
+                        </div>
+                    </div>
+
                     <div class="form-group row" id="filenameDisplay">
                         <label for="txt" class="control-label col-xs-5">文件名:</label>
                         <div class="col-xs-7">
@@ -97,7 +104,7 @@
                         <!--<label for="file">file:</label>-->
                         <input type="file" name="imageToUpload" id="upload-image" accept="image/*" capture="camera" />
 
-                        <input type="file" name="fileToUpload" id="upload-input" accept="video/*" capture="camcorder" />
+                        <input type="file" name="fileToUpload" id="upload-input" accept="image/*" capture="camcorder" />
 
                         <button class=" btn upload-file-btn" type="button" id="imgBtn">Upload image</button>
                         <button class=" btn upload-file-btn" type="button" id="fileBtn">Upload File</button>
@@ -120,6 +127,10 @@
     $('#upload-input').on('change',function () {
         $('#filenameDisplay').css("display",'block');
         $('#filename').html($("#upload-input")[0].files[0].name);
+    });
+    $('#upload-image').on('change',function () {
+        $('#imgnameDisplay').css("display",'block');
+        $('#imgname').html($("#upload-image")[0].files[0].name);
     })
     $("#uploadform").on('submit', function (e) {
         $(".progress").css("display","block");
